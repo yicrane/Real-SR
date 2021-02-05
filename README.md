@@ -141,17 +141,17 @@ For convenient, we provide [Corrupted-te-x](https://drive.google.com/open?id=1Gr
       CUDA_VISIBLE_DEVICES=4,5,6,7 python3 train.py --X4 --input-dir SOURCE_PATH
         ```
     
-    - specify dataset paths in './preprocess/path.yml' and generated KERNEL_PATH to kernel create kernel dataset:
-    ```python3 ./preprocess/create_kernel_dataset.py --dataset dped --artifacts clean --kernel_path KERNEL_PATH```
-    
-	* -#YIC
-	* -#修改create_kernel_dataset.py中参数：parser.add_argument('--cleanup_factor', default=2, type=int, help='downscaling factor for image cleanup')
-	* -#修改为parser.add_argument('--cleanup_factor', default=1, type=int, help='downscaling factor for image cleanup')
-	* -#相当于取消cleanup环节
-
-
-
-    - run the below command to collect high frequency noise from Source:
+    - specify dataset paths in './preprocess/path.yml' and generated KERNEL_PATH to kernel create kernel dataset:  
+    ```python3 ./preprocess/create_kernel_dataset.py --dataset dped --artifacts clean --kernel_path KERNEL_PATH```  
+    - For RealSR-202102: specify dataset paths in './preprocess/path_s2_2102.yml' and generated KERNEL_PATH to kernel create kernel dataset:  
+    ```python3 ./preprocess/create_kernel_dataset_s2_2102.py --dataset dped --artifacts clean --kernel_path KERNEL_PATH```
+        ```
+        YIC
+	    #修改create_kernel_dataset.py中参数：parser.add_argument('--cleanup_factor', default=2, type=int, help='downscaling factor for image cleanup')
+	    #修改为parser.add_argument('--cleanup_factor', default=1, type=int, help='downscaling factor for image cleanup')
+	    #相当于取消cleanup环节
+        ```
+	- run the below command to collect high frequency noise from Source:  
     ```python3 ./preprocess/collect_noise.py --dataset dped --artifacts clean```
     
  2. train SR model

@@ -18,7 +18,11 @@ parser.add_argument('--name', default='', type=str, help='additional string adde
 parser.add_argument('--dataset', default='df2k', type=str, help='selecting different datasets')
 parser.add_argument('--track', default='train', type=str, help='selecting train or valid track')
 parser.add_argument('--num_res_blocks', default=8, type=int, help='number of ResNet blocks')
-parser.add_argument('--cleanup_factor', default=2, type=int, help='downscaling factor for image cleanup')
+parser.add_argument('--cleanup_factor', default=1, type=int, help='downscaling factor for image cleanup')
+# yic
+#修改create_kernel_dataset.py中参数：parser.add_argument('--cleanup_factor', default=2, type=int, help='downscaling factor for image cleanup')
+#修改为parser.add_argument('--cleanup_factor', default=1, type=int, help='downscaling factor for image cleanup')
+#相当于取消cleanup环节
 parser.add_argument('--upscale_factor', default=4, type=int, choices=[4], help='super resolution upscale factor')
 opt = parser.parse_args()
 
