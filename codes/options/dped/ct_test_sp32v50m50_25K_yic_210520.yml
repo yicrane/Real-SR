@@ -1,0 +1,30 @@
+name: ct_test_sp32v50m50_25K_yic_210520
+suffix: ~  # add suffix to saved images
+model: srgan
+distortion: sr
+scale: 4
+crop_border: ~  # crop border when evaluation. If None(~), crop the scale pixels
+gpu_ids: [0]
+
+datasets:
+  test_1:  # the 1st test dataset
+    name: ct_test_sp32v50m50_25K_yic_210520
+    mode: LR
+    dataroot_LR: /home/yicrane/dataset/DATA_CT/CT_256_PNG_TE
+
+#### network structures
+network_G:
+  which_model_G: RRDBNet
+  in_nc: 3
+  out_nc: 3
+  nf: 64
+  nb: 23
+  upscale: 4
+
+#### path
+path:
+  pretrain_model_G: /home/yicrane/PycharmProjects/Real-SR/experiments/ct_train_kernel_noise_sp32v50m50_yic_210520/models/25000_G.pth
+  results_root: ./results/
+
+back_projection: False
+back_projection_lamda: !!float 0.2
