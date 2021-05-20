@@ -48,7 +48,7 @@ if __name__ == '__main__':
         min_mean = 0
     else:
         img_dir = PATHS[opt.dataset][opt.artifacts]['hr']['train']
-        noise_dir = PATHS['datasets']['dped'] + '/DPEDiphone_noise'
+        noise_dir = PATHS['datasets']['dped'] + '/DPEDiphone_noise_sp32v20m50'
         sp = 256
         max_var = 20
         min_mean = 50

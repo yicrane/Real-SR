@@ -1,5 +1,5 @@
 #### general settings
-name: DPED_kernel_noise
+name: ct_train_kernel_noise_sp64v20m50_yic_210520
 use_tb_logger: true
 model: srgan
 distortion: sr
@@ -9,12 +9,12 @@ gpu_ids: [4]
 #### datasets
 datasets:
   train:
-    name: DPED_train
+    name: ct_train_kernel_noise_sp64v20m50_yic_210520
     mode: LQGT
     aug: noise
-    noise_data: ../datasets/DPED/DPEDiphone_noise_sp32v20m50/
-    dataroot_GT: ../datasets/DPED/generated/clean/train_tdsr/HR
-    dataroot_LQ: ../datasets/DPED/generated/clean/train_tdsr/LR
+    noise_data: ../datasets/CT_210520/DPEDiphone_noise_sp64v20m50/
+    dataroot_GT: ../datasets/CT_210520/generated/clean/train_tdsr/HR
+    dataroot_LQ: ../datasets/CT_210520/generated/clean/train_tdsr/LR
 
     use_shuffle: true
     n_workers: 6  # per GPU
@@ -55,7 +55,8 @@ train:
   beta2_D: 0.999
   lr_scheme: MultiStepLR
 
-  niter: 60001
+#yic:for fasr to change:  niter: 60001
+  niter: 5001
   warmup_iter: -1  # no warm up
   lr_steps: [5000, 10000, 20000, 30000]
   lr_gamma: 0.5
@@ -75,5 +76,5 @@ train:
 
 #### logger
 logger:
-  print_freq: 100
+  print_freq: 5
   save_checkpoint_freq: !!float 5e3

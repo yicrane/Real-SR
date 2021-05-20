@@ -9,14 +9,14 @@ import yaml
 parser = argparse.ArgumentParser(description='create a dataset')
 parser.add_argument('--dataset', default='df2k', type=str, help='selecting different datasets')
 parser.add_argument('--artifacts', default='', type=str, help='selecting different artifacts type')
-parser.add_argument('--cleanup_factor', default=1, type=int, help='downscaling factor for image cleanup')
+parser.add_argument('--cleanup_factor', default=2, type=int, help='downscaling factor for image cleanup')
 #yic
 #parser.add_argument('--cleanup_factor', default=2, type=int, help='downscaling factor for image cleanup')
 parser.add_argument('--upscale_factor', default=4, type=int, choices=[4], help='super resolution upscale factor')
 opt = parser.parse_args()
 
 # define input and target directories
-with open('./preprocess/paths_s2_2102.yml', 'r') as stream:
+with open('./preprocess/paths_ct_210520.yml', 'r') as stream:
     PATHS = yaml.load(stream)
 
 
@@ -50,10 +50,10 @@ if __name__ == '__main__':
         min_mean = 0
     else:
         img_dir = PATHS[opt.dataset][opt.artifacts]['hr']['train']
-        noise_dir = PATHS['datasets']['dped'] + '/DPEDiphone_noise_sp32v20m50'
+        noise_dir = PATHS['datasets']['dped'] + '/Corrupted_noise'
         sp = 64
-        max_var = 6
-        min_mean = 16
+        max_var = 20
+        min_mean = 50
         
     assert not os.path.exists(noise_dir)
     os.mkdir(noise_dir)

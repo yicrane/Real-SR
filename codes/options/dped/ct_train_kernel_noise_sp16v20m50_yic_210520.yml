@@ -1,0 +1,118 @@
+#yic
+#ValueError: Required crop size (32, 32) is larger then input image size (8, 8)
+#Traceback (most recent call last):
+#  File "/home/yicrane/PycharmProjects/Real-SR/codes/train.py", line 241, in <module>
+#    main()
+#  File "/home/yicrane/PycharmProjects/Real-SR/codes/train.py", line 154, in main
+#    for _, train_data in enumerate(train_loader):
+#  File "/usr/local/lib/python3.9/dist-packages/torch/utils/data/dataloader.py", line 517, in __next__
+#    data = self._next_data()
+#  File "/usr/local/lib/python3.9/dist-packages/torch/utils/data/dataloader.py", line 1199, in _next_data
+#    return self._process_data(data)
+#  File "/usr/local/lib/python3.9/dist-packages/torch/utils/data/dataloader.py", line 1225, in _process_data
+#    data.reraise()
+#  File "/usr/local/lib/python3.9/dist-packages/torch/_utils.py", line 429, in reraise
+#    raise self.exc_type(msg)
+#ValueError: Caught ValueError in DataLoader worker process 0.
+#Original Traceback (most recent call last):
+#  File "/usr/local/lib/python3.9/dist-packages/torch/utils/data/_utils/worker.py", line 202, in _worker_loop
+#    data = fetcher.fetch(index)
+#  File "/usr/local/lib/python3.9/dist-packages/torch/utils/data/_utils/fetch.py", line 44, in fetch
+#    data = [self.dataset[idx] for idx in possibly_batched_index]
+#  File "/usr/local/lib/python3.9/dist-packages/torch/utils/data/_utils/fetch.py", line 44, in <listcomp>
+#    data = [self.dataset[idx] for idx in possibly_batched_index]
+#  File "/home/yicrane/PycharmProjects/Real-SR/codes/data/LQGT_dataset.py", line 147, in __getitem__
+#    noise = self.noises[np.random.randint(0, len(self.noises))]
+#  File "/home/yicrane/PycharmProjects/Real-SR/codes/data/data_loader.py", line 26, in __getitem__
+#    noise = self.pre_process(Image.open(self.noise_imgs[index]))
+#  File "/usr/local/lib/python3.9/dist-packages/torchvision/transforms/transforms.py", line 60, in __call__
+#    img = t(img)
+#  File "/usr/local/lib/python3.9/dist-packages/torch/nn/modules/module.py", line 889, in _call_impl
+#    result = self.forward(*input, **kwargs)
+#  File "/usr/local/lib/python3.9/dist-packages/torchvision/transforms/transforms.py", line 596, in forward
+#    i, j, h, w = self.get_params(img, self.size)
+#  File "/usr/local/lib/python3.9/dist-packages/torchvision/transforms/transforms.py", line 552, in get_params
+#    raise ValueError(
+#ValueError: Required crop size (32, 32) is larger then input image size (8, 8)
+
+
+#### general settings
+name: ct_train_kernel_noise_sp16v20m50_yic_210520
+use_tb_logger: true
+model: srgan
+distortion: sr
+scale: 4
+gpu_ids: [4]
+
+#### datasets
+datasets:
+  train:
+    name: ct_train_kernel_noise_sp16v20m50_yic_210520
+    mode: LQGT
+    aug: noise
+    noise_data: ../datasets/CT_210520/DPEDiphone_noise_sp16v20m50/
+    dataroot_GT: ../datasets/CT_210520/generated/clean/train_tdsr/HR
+    dataroot_LQ: ../datasets/CT_210520/generated/clean/train_tdsr/LR
+
+    use_shuffle: true
+    n_workers: 6  # per GPU
+    batch_size: 16
+    GT_size: 128
+    use_flip: true
+    use_rot: true
+    color: RGB
+
+#### network structures
+network_G:
+  which_model_G: RRDBNet
+  in_nc: 3
+  out_nc: 3
+  nf: 64
+  nb: 23
+network_D:
+  which_model_D: NLayerDiscriminator
+  in_nc: 3
+  nf: 64
+  nlayer: 3
+
+#### path
+path:
+  pretrain_model_G: ../pretrained_model/RRDB_PSNR_x4.pth
+  strict_load: true
+  resume_state: ~ #../experiments/training_states/model.state
+
+#### training settings: learning rate scheme, loss
+train:
+  lr_G: !!float 1e-4
+  weight_decay_G: 0
+  beta1_G: 0.9
+  beta2_G: 0.999
+  lr_D: !!float 1e-4
+  weight_decay_D: 0
+  beta1_D: 0.9
+  beta2_D: 0.999
+  lr_scheme: MultiStepLR
+
+#yic:for fasr to change:  niter: 60001
+  niter: 5001
+  warmup_iter: -1  # no warm up
+  lr_steps: [5000, 10000, 20000, 30000]
+  lr_gamma: 0.5
+
+  pixel_criterion: l1
+  pixel_weight: !!float 1e-2
+  feature_criterion: l1
+  feature_weight: 1
+  gan_type: ragan  # gan | ragan
+  gan_weight: !!float 5e-3
+
+  D_update_ratio: 1
+  D_init_iters: 0
+
+  manual_seed: 10
+  val_freq: 99999999
+
+#### logger
+logger:
+  print_freq: 5
+  save_checkpoint_freq: !!float 5e3
