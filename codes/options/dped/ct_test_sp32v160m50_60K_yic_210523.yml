@@ -1,5 +1,5 @@
 name: ct_test_sp32v160m50_60K_yic_210523
-suffix: ~  # add suffix to saved images
+suffix: '_sp32v160m50_60K'  # add suffix to saved images
 model: srgan
 distortion: sr
 scale: 4
