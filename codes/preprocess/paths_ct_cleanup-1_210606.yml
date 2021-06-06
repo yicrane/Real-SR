@@ -1,0 +1,13 @@
+df2k:
+  tdsr:
+    source: '../../Corrupted-tr-x'
+    target: '../../Corrupted-tr-y'
+    valid:
+dped:
+  clean:
+    hr:
+      train: '/home/yic/dataset/DATA_CT/CT_256_PNG_TR'
+      valid: '/home/yic/dataset/DATA_CT/CT_256_PNG_VA'
+datasets:
+  df2k: '../datasets/DF2K'
+  dped: '../datasets/ct_cleanup-1'
